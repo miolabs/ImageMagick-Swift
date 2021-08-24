@@ -1,0 +1,6 @@
+
+module CMagickWand [system] {
+  header "shim.h"
+  link "libMagickWand-7.Q16HDRI"
+  export *
+}
