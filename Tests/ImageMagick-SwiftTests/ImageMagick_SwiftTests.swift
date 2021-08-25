@@ -30,7 +30,7 @@
             
             let w = MagickWand()
             try? w.readImage(fromPath: src_path)            
-            try? w.resize(width: 120, height: 120, filterType: .lanczosFilter)
+            try? w.resize(columns: 120, rows: 120, filterType: .lanczosFilter)
             try? w.writeImage(toPath: dst_path)
         }
         

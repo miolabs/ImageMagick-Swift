@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CMagickWand
 
 public enum MagickImageFilterType: UInt32
 {
@@ -42,4 +43,91 @@ public enum MagickImageFilterType: UInt32
     case lanczosRadiusFilter
     case cubicSplineFilter
     case sentinelFilter  /* a count of all the filters, not a real filter */
+}
+
+extension MagickWand
+{
+    public func readImage(fromPath path:String) throws {
+        let status = MagickReadImage(magick_wand, path.cString(using: .utf8))
+        if (status == MagickFalse) {
+            //ThrowWandException(magick_wand);
+            print("ThrowWandException(magick_wand)")
+        }
+    }
+    
+    public func writeImage(toPath path:String) throws {
+        MagickWriteImage(magick_wand, path.cString(using: .utf8))
+    }
+
+    public func readImage(fromData data:Data) throws {
+        var status = MagickFalse
+        
+        data.withUnsafeBytes { bytes in
+            status = MagickReadImageBlob(magick_wand, bytes.baseAddress!, data.count)
+        }
+                
+        if (status == MagickFalse) {
+            print("ThrowWandException(magick_wand)")
+        }
+    }
+        
+    public func imageData(format:String? = nil) throws -> Data? {
+        if format != nil { setImageFormat(format: format!) }
+        MagickResetIterator(magick_wand)
+        
+        var len:Int = 0
+        let bytes = MagickGetImageBlob(magick_wand, &len)!
+        let data = Data(bytes: bytes, count: len)
+
+        // TODO: Check this
+//        MagickRelinquishMemory(magick_wand)
+        
+        return data
+    }
+    
+    // MARK: Image format
+    
+    public func setImageFormat(format:String) {
+        MagickSetImageFormat(magick_wand, format.cString(using: .utf8))
+    }
+        
+    /// Returns the format of a particular image in a sequence
+    ///
+    /// -returns: String Image format. Example png, jpg, etc
+    
+    public func imageFormat() -> String? {
+        let format = MagickGetImageFormat(magick_wand)
+        return String(cString: format!, encoding: .utf8)
+    }
+    
+    // MARK: -
+    
+    /// Scales an image to the desired dimensions with one of these filters:
+    ///     Bessel
+    ///     Blackman
+    ///     Box
+    ///     Catrom
+    ///     CubicGaussian
+    ///     Hanning
+    ///     Hermite
+    ///     Lanczos
+    ///     Mitchell
+    ///     PointQuandratic
+    ///     Sinc
+    ///     Triangle
+    ///
+    /// - parameter columns: The number of columns in the scaled image.
+    /// - parameter rows: The number of columns in the scaled image.
+    /// - parameter filterType: Image filter to use.
+    ///
+    
+    public func resize(columns:Int, rows:Int, filterType: MagickImageFilterType) throws {
+        let ft = CMagickWand.FilterType(rawValue: filterType.rawValue)
+        MagickResizeImage(magick_wand, columns, rows, ft)
+    }
+
+    public func crop(width:Int, height:Int, x:Int, y:Int) {
+        MagickCropImage(magick_wand, width, height, x, y)
+    }
+    
 }
