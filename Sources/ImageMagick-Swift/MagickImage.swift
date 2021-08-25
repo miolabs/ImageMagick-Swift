@@ -103,17 +103,17 @@ extension MagickWand
     // MARK: -
     
     /// Scales an image to the desired dimensions with one of these filters:
-    ///     Bessel
-    ///     Blackman
-    ///     Box
-    ///     Catrom
-    ///     CubicGaussian
-    ///     Hanning
-    ///     Hermite
-    ///     Lanczos
-    ///     Mitchell
-    ///     PointQuandratic
-    ///     Sinc
+    ///     Bessel,
+    ///     Blackman,
+    ///     Box,
+    ///     Catrom,
+    ///     CubicGaussian,
+    ///     Hanning,
+    ///     Hermite,
+    ///     Lanczos,
+    ///     Mitchell,
+    ///     PointQuandratic,
+    ///     Sinc,
     ///     Triangle
     ///
     /// - parameter columns: The number of columns in the scaled image.
@@ -121,10 +121,17 @@ extension MagickWand
     /// - parameter filterType: Image filter to use.
     ///
     
-    public func resize(columns:Int, rows:Int, filterType: MagickImageFilterType) throws {
+    public func resize(columns:Int, rows:Int, filterType: MagickImageFilterType) {
         let ft = CMagickWand.FilterType(rawValue: filterType.rawValue)
         MagickResizeImage(magick_wand, columns, rows, ft)
     }
+    
+    /// Extracts a region of the image.
+    ///
+    /// - parameter width: the region width.
+    /// - paremeter height: the region height.
+    /// - paremeter x: the region x-offset.
+    /// - paremeter y: the region y-offset.
 
     public func crop(width:Int, height:Int, x:Int, y:Int) {
         MagickCropImage(magick_wand, width, height, x, y)
