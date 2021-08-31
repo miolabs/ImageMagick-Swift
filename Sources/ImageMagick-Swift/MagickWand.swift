@@ -12,7 +12,7 @@ public class MagickWand
 {
     let magick_wand:OpaquePointer
     
-    init(){
+    public init(){
         MagickWandGenesis()
         magick_wand = NewMagickWand()
     }
