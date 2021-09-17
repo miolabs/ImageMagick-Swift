@@ -50,8 +50,8 @@ extension MagickWand
     public func readImage(fromPath path:String) throws {
         let status = MagickReadImage(magick_wand, path.cString(using: .utf8))
         if (status == MagickFalse) {
-            //ThrowWandException(magick_wand);
-            print("ThrowWandException(magick_wand)")
+            ThrowWandException(magick_wand)
+//            print("ThrowWandException(magick_wand)")
         }
     }
     
@@ -67,7 +67,8 @@ extension MagickWand
         }
                 
         if (status == MagickFalse) {
-            print("ThrowWandException(magick_wand)")
+            ThrowWandException(magick_wand)
+//            print("ThrowWandException(magick_wand)")
         }
     }
         
