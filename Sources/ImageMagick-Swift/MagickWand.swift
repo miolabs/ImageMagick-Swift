@@ -22,3 +22,15 @@ public class MagickWand
         MagickWandTerminus()
     }
 }
+
+func ThrowWandException(_ wand:OpaquePointer)
+{
+    var severity:ExceptionType = ExceptionType(0)
+ 
+    let description = MagickGetException(wand, &severity)
+    print("\(String(describing: description))\n")
+      
+//     (void) fprintf(stderr,"%s %s %lu %s\n",GetMagickModule(),description);
+//     description=(char *) MagickRelinquishMemory(description);
+//     exit(-1);
+}

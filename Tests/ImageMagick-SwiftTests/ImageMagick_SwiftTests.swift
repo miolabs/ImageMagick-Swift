@@ -2,12 +2,6 @@
     @testable import ImageMagick_Swift
 
     final class ImageMagick_SwiftTests: XCTestCase {
-        func testExample() {
-            // This is an example of a functional test case.
-            // Use XCTAssert and related functions to verify your tests produce the correct
-            // results.
-            XCTAssertEqual(ImageMagick_Swift().text, "Hello, World!")
-        }
         
         func documentPath() -> String {
             return CommandLine.arguments.count < 2 ? "\(FileManager().currentDirectoryPath)" : CommandLine.arguments[1]
