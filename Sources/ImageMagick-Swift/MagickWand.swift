@@ -28,7 +28,7 @@ func ThrowWandException(_ wand:OpaquePointer)
     var severity:ExceptionType = ExceptionType(0)
  
     let description = MagickGetException(wand, &severity)
-    print("\(String(describing: description))\n")
+    print("\(String(cString: description!))\n")
       
 //     (void) fprintf(stderr,"%s %s %lu %s\n",GetMagickModule(),description);
 //     description=(char *) MagickRelinquishMemory(description);
