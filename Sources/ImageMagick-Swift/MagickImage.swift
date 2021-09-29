@@ -67,17 +67,21 @@ extension MagickWand
         }
                 
         if (status == MagickFalse) {
-            ThrowWandException(magick_wand)
+            throw MagickWandError.unkown
+//            ThrowWandException(magick_wand)
 //            print("ThrowWandException(magick_wand)")
         }
     }
         
     public func imageData(format:String? = nil) throws -> Data? {
         if format != nil { setImageFormat(format: format!) }
+                        
         MagickResetIterator(magick_wand)
         
         var len:Int = 0
-        let bytes = MagickGetImageBlob(magick_wand, &len)!
+        guard let bytes = MagickGetImageBlob(magick_wand, &len) else {
+            throw MagickWandError.unkown
+        }
         let data = Data(bytes: bytes, count: len)
 
         // TODO: Check this

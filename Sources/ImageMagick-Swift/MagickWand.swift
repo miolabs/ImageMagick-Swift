@@ -8,6 +8,11 @@
 import Foundation
 import CMagickWand
 
+enum MagickWandError : Error
+{
+    case unkown
+}
+
 public class MagickWand
 {
     let magick_wand:OpaquePointer
@@ -26,10 +31,10 @@ public class MagickWand
 func ThrowWandException(_ wand:OpaquePointer)
 {
     var severity:ExceptionType = ExceptionType(0)
- 
+
     let description = MagickGetException(wand, &severity)
     print("\(String(cString: description!))\n")
-      
+
 //     (void) fprintf(stderr,"%s %s %lu %s\n",GetMagickModule(),description);
 //     description=(char *) MagickRelinquishMemory(description);
 //     exit(-1);
